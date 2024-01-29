@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:26 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/01/29 15:48:56 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/01/29 16:17:29 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,20 @@
 # include <sys/wait.h>
 # include <stdlib.h>
 # include <fcntl.h>
-# include "libft/libft.h"
 # include <errno.h>
+# include <stdlib.h>
 
 # define PP ft_printf("prout")
 # define DD(xxx) ft_printf("%d", xxx)
 # define SS(xxx) ft_printf("%s", xxx)
 # define CC(xxx) ft_printf("%c", xxx)
 
-typedef struct	s_philo
+typedef struct s_philo
 {
 	int	id;
 }			t_philo;
 
-typedef struct	s_table
+typedef struct s_table
 {
 	t_philo	*ph;
 	int		fork;

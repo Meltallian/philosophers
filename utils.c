@@ -1,35 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isascii.c                                       :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/09 17:01:55 by jbidaux           #+#    #+#             */
-/*   Updated: 2023/10/10 15:50:38 by jbidaux          ###   ########.fr       */
+/*   Created: 2024/01/29 15:50:53 by jbidaux           #+#    #+#             */
+/*   Updated: 2024/01/29 16:18:22 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <ctype.h>
+#include "philosophers.h"
 
-int	ft_isascii(int arg)
+void	is_int(char **av, int ac)
 {
-	if (arg >= 0 && arg <= 127)
-		return (1);
-	else
-		return (0);
+	int	i;
+	int	j;
+
+	i = 1;
+	j = 0;
+	while (i < ac)
+	{
+		j = 0;
+		while (av[i][j])
+		{
+			if (av[i][j] > 57 || av[i][j] < 48)
+			{
+				printf("wrong synthax");
+				exit (1);
+			}
+			j++;
+		}
+		i++;
+	}
 }
-
-/*  int main(int ac, char **av)
-{
-	int check;
-
-	if(ac != 2)
-		return(1);
-
-	check = av[1][0];
-	printf("Result: %d\n", ft_isascii(check));
-	printf("Result: %d\n", isascii(check));
-	return(0);
-} */
