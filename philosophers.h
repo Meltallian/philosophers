@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philosophers.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/29 09:29:26 by jbidaux           #+#    #+#             */
+/*   Updated: 2024/01/29 10:15:19 by jbidaux          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
@@ -14,9 +26,19 @@
 # define SS(xxx) ft_printf("%s", xxx)
 # define CC(xxx) ft_printf("%c", xxx)
 
-typedef struct s_data
+typedef struct	s_philo
 {
+	int	id;
+}			t_philo;
 
-}			t_data;
+typedef struct	s_table
+{
+	t_philo	*ph;
+	int		fork;
+	int		t_die;
+	int		t_eat;
+	int		t_sleep;
+	int		min_meal;
+}			t_table;
 
-#endif /* PHILOSOPHERS_H */
+#endif // PHILOSOPHERS_H

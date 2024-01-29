@@ -3,7 +3,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
 NAME = philosophers
 LIBFT = libft/libft.a
-philosophers_SRC = main.c path.c utils.c
+philosophers_SRC = main.c
 philosophers_OBJ = $(philosophers_SRC:.c=.o)
 #INCLUDES_DIR = -I./includes -I./libft/includes -I./minilibx_macos/includes
 #pas necessaire parceque -lft -lmlx dans la ligne cc
