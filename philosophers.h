@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:26 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/01/29 10:15:19 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/01/29 15:48:56 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ typedef struct	s_table
 	int		t_eat;
 	int		t_sleep;
 	int		min_meal;
-}			t_table;
+}			t_tab;
+
+void	is_int(char **av, int ac);
 
 #endif // PHILOSOPHERS_H
