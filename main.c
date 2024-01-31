@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:20 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/01/29 16:17:51 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/01/31 14:23:21 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	init(t_tab *tab, int ac, char **av)
 		exit (1);
 	if (ac < 5 || ac > 6)
 	{
-		printf("wrong synthax");
+		printf("wrong syntax");
 		exit (1);
 	}
 	is_int(av, ac);
@@ -33,9 +33,12 @@ void	init(t_tab *tab, int ac, char **av)
 
 int	main(int ac, char **av)
 {
-	t_tab	tab;
-
+	t_tab			tab;
+	pthread_mutex_t	mutex;
+	
 	init(&tab, ac, av);
+	pthread_mutex_init(&mutex, NULL);
+	pthread_mutex_destroy(&mutex);
 	free(tab.ph);
 	return (0);
 }
