@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:26 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/01/31 10:49:01 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/01/31 16:07:28 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,17 @@
 # define SS(xxx) ft_printf("%s", xxx)
 # define CC(xxx) ft_printf("%c", xxx)
 
-typedef struct s_philo
+typedef struct s_fork
 {
 	int	id;
+}	t_fork ;
+
+typedef struct s_philo
+{
+	int		id;
+	char	state;
+	int		meals;
+	t_fork	fork;
 }			t_philo;
 
 typedef struct s_table
@@ -43,5 +51,6 @@ typedef struct s_table
 }			t_tab;
 
 void	is_int(char **av, int ac);
+void	init(t_tab *tab, int ac, char **av);
 
 #endif // PHILOSOPHERS_H

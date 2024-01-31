@@ -1,6 +1,6 @@
 # Variables
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -pthread
 NAME = philosophers
 philosophers_SRC = main.c utils.c
 philosophers_OBJ = $(philosophers_SRC:.c=.o)
