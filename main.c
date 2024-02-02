@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:20 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/02 15:45:18 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/02 16:51:34 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	init_assist(t_tab *tab, int ac, char **av)
 		exit (1);
 	}
 	set_philo(tab, ac);
+	name(tab);
 }
 
 void	init(t_tab *tab, int ac, char **av)
@@ -54,7 +55,7 @@ void	init(t_tab *tab, int ac, char **av)
 	i = 0;
 	while (i < tab->n_f)
 	{
-		if(pthread_mutex_init(&(tab->fork[i].mutex), NULL) != 0)
+		if (pthread_mutex_init(&(tab->fork[i].mutex), NULL) != 0)
 		{
 			printf("thread issue\n");
 			free(tab->ph);
@@ -65,13 +66,28 @@ void	init(t_tab *tab, int ac, char **av)
 	}
 }
 
+void	action(t_tab *tab)
+{
+	int	i;
 
+	i = 0;
+	while (i < tab->n_f)
+	{
+		if (tab->ph[i].state == 'f')
+		{
+			printf("%s has taken a fork\n", tab->ph[i].name);
+			tab->ph[i].state = 's';
+		}
+		i++;
+	}
+}
 
 int	main(int ac, char **av)
 {
 	t_tab	tab;
 
 	init(&tab, ac, av);
+	action(&tab);
 	clean(&tab);
 	return (0);
 }

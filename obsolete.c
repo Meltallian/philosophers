@@ -6,12 +6,12 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 17:23:57 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/02 10:05:48 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/02 16:45:59 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
+/*
 void	init(t_tab *tab, int ac, char **av)
 {
 	if (ac == 1)
@@ -39,9 +39,9 @@ void	*routine(void *arg)
 	pthread_mutex_t	*mutex = (pthread_mutex_t *)arg;
 	for (int i = 0; i < 1000000; i++)
 	{
-		// pthread_mutex_lock(mutex);
+		pthread_mutex_lock(mutex);
 		mails++;
-		// pthread_mutex_unlock(mutex);
+		pthread_mutex_unlock(mutex);
 	}
 	return (0);
 }
@@ -71,3 +71,4 @@ int	main(int ac, char **av)
 	free(tab.ph);
 	return (0);
 }
+ */

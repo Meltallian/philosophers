@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:26 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/02 15:44:08 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/02 16:51:38 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_philo
 {
 	pthread_t		p;
 	int				id;
+	char			*name;
 	char			state;
 	int				meals;
 }			t_philo;
@@ -58,5 +59,6 @@ void	init_assist(t_tab *tab, int ac, char **av);
 void	clean(t_tab *tab);
 void	set_philo(t_tab *tab, int ac);
 void	set_fork(t_tab *tab);
+void	name(t_tab *tab);
 
 #endif // PHILOSOPHERS_H
