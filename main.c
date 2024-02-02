@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:20 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/01/31 17:36:08 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/02 09:09:35 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,16 @@ void	init(t_tab *tab, int ac, char **av)
 	tab->ph = malloc (tab->fork * sizeof(t_philo));
 }
 
-pthread_mutex_t	mutex;
-static int	mails = 0;
-int	lock = 0;
+	int	mails = 0;
 
-void	*routine()
+void	*routine(void *arg)
 {
-	for (int i = 0; i < 10000000; i++)
+	pthread_mutex_t	*mutex = (pthread_mutex_t *)arg;
+	for (int i = 0; i < 1000000; i++)
 	{
-		pthread_mutex_lock(&mutex);
+		pthread_mutex_lock(mutex);
 		mails++;
-		pthread_mutex_unlock(&mutex);
+		pthread_mutex_unlock(mutex);
 	}
 	return (0);
 }
@@ -50,14 +49,15 @@ int	main(int ac, char **av)
 {
 	t_tab			tab;
 	pthread_t	p1, p2, p3;
+	pthread_mutex_t	mutex;
 
 	init(&tab, ac, av);
 	pthread_mutex_init(&mutex, NULL);
-	if (pthread_create(&p1, NULL, &routine, NULL) != 0)
+	if (pthread_create(&p1, NULL, routine, &mutex) != 0)
 		return 1;
-	if (pthread_create(&p2, NULL, &routine, NULL) != 0)
+	if (pthread_create(&p2, NULL, routine, &mutex) != 0)
 		return 2;
-	if (pthread_create(&p3, NULL, &routine, NULL) != 0)
+	if (pthread_create(&p3, NULL, routine, &mutex) != 0)
 		return 5;
 	if (pthread_join(p1, NULL) != 0)
 		return 3;

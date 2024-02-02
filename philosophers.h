@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:26 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/01/31 16:07:28 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/02 09:30:27 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@
 
 typedef struct s_fork
 {
-	int	id;
+	int				id;
+	pthread_mutex_t	mutex;
 }	t_fork ;
 
 typedef struct s_philo
@@ -37,13 +38,12 @@ typedef struct s_philo
 	int		id;
 	char	state;
 	int		meals;
-	t_fork	fork;
 }			t_philo;
 
 typedef struct s_table
 {
 	t_philo	*ph;
-	int		fork;
+	t_fork	*fork;
 	int		t_die;
 	int		t_eat;
 	int		t_sleep;
