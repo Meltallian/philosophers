@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:26 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/02 09:30:27 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/02 15:44:08 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,35 +22,41 @@
 # include <stdlib.h>
 # include <pthread.h>
 
-# define PP ft_printf("prout")
-# define DD(xxx) ft_printf("%d", xxx)
-# define SS(xxx) ft_printf("%s", xxx)
-# define CC(xxx) ft_printf("%c", xxx)
+# define PP printf("prout")
+# define DD(xxx) printf("%d", xxx)
+# define SS(xxx) printf("%s", xxx)
+# define CC(xxx) printf("%c", xxx)
 
 typedef struct s_fork
 {
 	int				id;
 	pthread_mutex_t	mutex;
-}	t_fork ;
+}			t_fork;
 
 typedef struct s_philo
 {
-	int		id;
-	char	state;
-	int		meals;
+	pthread_t		p;
+	int				id;
+	char			state;
+	int				meals;
 }			t_philo;
 
 typedef struct s_table
 {
-	t_philo	*ph;
-	t_fork	*fork;
-	int		t_die;
-	int		t_eat;
-	int		t_sleep;
-	int		min_meal;
+	t_philo		*ph;
+	t_fork		*fork;
+	int			n_f;
+	int			t_die;
+	int			t_eat;
+	int			t_sleep;
+	int			min_meal;
 }			t_tab;
 
 void	is_int(char **av, int ac);
 void	init(t_tab *tab, int ac, char **av);
+void	init_assist(t_tab *tab, int ac, char **av);
+void	clean(t_tab *tab);
+void	set_philo(t_tab *tab, int ac);
+void	set_fork(t_tab *tab);
 
 #endif // PHILOSOPHERS_H
