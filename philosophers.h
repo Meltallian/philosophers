@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:26 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/06 11:50:30 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/06 14:56:10 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 typedef struct s_fork
 {
 	int				id;
+	char			state;
 	pthread_mutex_t	mutex;
 }			t_fork;
 
