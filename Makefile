@@ -2,7 +2,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g -pthread
 NAME = philosophers
-philosophers_SRC = main.c utils.c parse.c name.c
+philosophers_SRC = main.c utils.c parse.c name.c init.c
 philosophers_OBJ = $(philosophers_SRC:.c=.o)
 
 # Default rule
