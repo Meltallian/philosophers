@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:26 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/06 14:56:10 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/07 11:39:45 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # define SS(xxx) printf("%s", xxx)
 # define CC(xxx) printf("%c", xxx)
 
+typedef struct s_table	t_tab;
+
 typedef struct s_fork
 {
 	int				id;
@@ -36,11 +38,14 @@ typedef struct s_fork
 
 typedef struct s_philo
 {
-	pthread_t		p;
-	int				id;
-	char			*name;
-	char			state;
-	int				meals;
+	pthread_t	p;
+	int			id;
+	int			left_f;
+	int			right_f;
+	char		*name;
+	char		state;
+	int			meals;
+	t_tab		*tab;
 }			t_philo;
 
 typedef struct s_table
@@ -59,6 +64,7 @@ int		init(t_tab *tab, int ac, char **av);
 void	init_assist(t_tab *tab, int ac, char **av);
 void	init_assist_2(t_tab *tab, int ac, char **av);
 void	clean(t_tab *tab);
+void	set_philo_helper(t_tab *tab, int ac);
 void	set_philo(t_tab *tab, int ac);
 void	set_fork(t_tab *tab);
 void	name(t_tab *tab);

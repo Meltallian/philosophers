@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:55:27 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/06 15:47:57 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/07 11:41:00 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	init(t_tab *tab, int ac, char **av)
 	i = 0;
 	while (i < tab->n_f)
 	{
-		if (pthread_create(&(tab->ph[i].p), NULL, &routine, (void *)tab) != 0)
+		if (pthread_create(&(tab->ph[i].p), NULL, &routine, (void *)&(tab->ph[i])) != 0)
 			return (1);
 		i++;
 	}
