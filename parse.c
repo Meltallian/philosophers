@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 15:43:42 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/07 13:33:45 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/07 15:23:03 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	set_fork(t_tab *tab)
 	while (i < tab->n_f)
 	{
 		tab->fork[i].state = 'f';
+		tab->ph[i].fork = tab->fork;
 		i++;
 	}
 }

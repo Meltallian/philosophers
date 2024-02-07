@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:26 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/07 13:59:15 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/07 15:06:32 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@
 # include <string.h>
 
 # define PP printf("prout")
-# define DD(xxx) printf("%d", xxx)
-# define SS(xxx) printf("%s", xxx)
-# define CC(xxx) printf("%c", xxx)
+# define DD(xxx) printf("%d\n", xxx)
+# define SS(xxx) printf("%s\n", xxx)
+# define CC(xxx) printf("%c\n", xxx)
 
 typedef struct s_table	t_tab;
 
@@ -43,9 +43,10 @@ typedef struct s_philo
 	int			id;
 	int			left_f;
 	int			right_f;
-	char		*name;
+	const char	*name;
 	char		state;
 	int			meals;
+	t_fork		*fork;
 	t_tab		*tab;
 }			t_philo;
 

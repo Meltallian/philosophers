@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:20 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/07 14:06:32 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/07 15:25:32 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,21 @@
 
 void	to_eat(t_philo *philo)
 {
+
+	pthread_mutex_lock(&(philo->fork[philo->left_f].mutex));
 	if (philo->state == 'f')
 	{
 		printf("%s has taken the fork %d\n", philo->name, philo->left_f);
 		philo->state = 'r';
 	}
+	pthread_mutex_unlock(&(philo->fork[philo->left_f].mutex));
+	pthread_mutex_lock(&(philo->fork[philo->right_f].mutex));
 	if (philo->state == 'r')
 	{
 		printf("%s has taken the fork %d\n", philo->name, philo->right_f);
 		philo->state = 'e';
 	}
+	pthread_mutex_unlock(&(philo->fork[philo->right_f].mutex));
 }
 
 void	action(t_philo *philo)
@@ -37,10 +42,6 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	action(philo);
-// for (int i = 0; i < philo->tab->n_f; i++) {
-//     printf("Philosopher %d is named %s\n", i, philo->tab->ph[i].name ? philo->tab->ph[i].name : "NULL");
-// }
-
 	return (NULL);
 }
 
