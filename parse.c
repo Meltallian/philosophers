@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 15:43:42 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/07 11:37:16 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/07 13:33:45 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,10 @@ void	set_philo_helper(t_tab *tab, int ac)
 	i = 0;
 	while (i < tab->n_f)
 	{
-		tab->ph[i].state = 'f';
-		i++;
-	}
-	i = 0;
-	while (i < tab->n_f)
-	{
 		tab->ph[i].id = i;
 		tab->ph[i].left_f = i;
 		tab->ph[i].tab = tab;
+		tab->ph[i].state = 'f';
 		i++;
 	}
 	i = 0;

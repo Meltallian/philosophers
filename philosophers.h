@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:26 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/07 11:39:45 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/07 13:59:15 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <errno.h>
 # include <stdlib.h>
 # include <pthread.h>
+# include <string.h>
 
 # define PP printf("prout")
 # define DD(xxx) printf("%d", xxx)
