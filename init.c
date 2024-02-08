@@ -6,21 +6,14 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:55:27 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/07 11:41:00 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/08 16:49:23 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	init_assist_2(t_tab *tab, int ac, char **av)
+int	init_assist_2(t_tab *tab, int ac, char **av)
 {
-	if (ac == 1)
-		exit (1);
-	if (ac < 5 || ac > 6)
-	{
-		printf("wrong syntax");
-		exit (1);
-	}
 	is_int(av, ac);
 	tab->n_f = atoi(av[1]);
 	tab->t_die = atoi(av[2]);
@@ -33,11 +26,12 @@ void	init_assist_2(t_tab *tab, int ac, char **av)
 	if (!tab->ph)
 	{
 		printf("philosophers malloc issue\n");
-		exit (1);
+		return (0);
 	}
+	return (1);
 }
 
-void	init_assist(t_tab *tab, int ac, char **av)
+int	init_assist(t_tab *tab, int ac, char **av)
 {
 	int	i;
 
@@ -48,8 +42,7 @@ void	init_assist(t_tab *tab, int ac, char **av)
 	if (!tab->fork)
 	{
 		printf("fork malloc issue\n");
-		free(tab->fork);
-		exit (1);
+		return (0);
 	}
 	set_fork(tab);
 	i = 0;
@@ -58,32 +51,37 @@ void	init_assist(t_tab *tab, int ac, char **av)
 		if (pthread_mutex_init(&(tab->fork[i].mutex), NULL) != 0)
 		{
 			printf("thread issue\n");
-			free(tab->ph);
-			free(tab->fork);
-			exit (1);
+			return (0);
 		}
 		i++;
 	}
+	return (1);
 }
 
 int	init(t_tab *tab, int ac, char **av)
 {
+	if (!(init_assist(tab, ac, av)))
+		return (0);
+	return (1);
+}
+
+int	threads(t_tab *tab)
+{
 	int	i;
 
-	init_assist(tab, ac, av);
 	i = 0;
 	while (i < tab->n_f)
 	{
 		if (pthread_create(&(tab->ph[i].p), NULL, &routine, (void *)&(tab->ph[i])) != 0)
-			return (1);
+			return (0);
 		i++;
 	}
 	i = 0;
 	while (i < tab->n_f)
 	{
 		if (pthread_join(tab->ph[i].p, NULL) != 0)
-			return (1);
+			return (0);
 		i++;
 	}
-	return (0);
+	return (1);
 }

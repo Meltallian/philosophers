@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:26 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/08 14:08:01 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/08 16:49:32 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,16 @@ typedef struct s_table
 	int			min_meal;
 }			t_tab;
 
-void	is_int(char **av, int ac);
+int		is_int(char **av, int ac);
 int		init(t_tab *tab, int ac, char **av);
-void	init_assist(t_tab *tab, int ac, char **av);
-void	init_assist_2(t_tab *tab, int ac, char **av);
+int		init_assist(t_tab *tab, int ac, char **av);
+int		init_assist_2(t_tab *tab, int ac, char **av);
 void	clean(t_tab *tab);
 void	set_philo_helper(t_tab *tab, int ac);
 void	set_philo(t_tab *tab, int ac);
 void	set_fork(t_tab *tab);
 void	name(t_tab *tab);
 void	*routine(void *arg);
+int		threads(t_tab *tab);
 
 #endif // PHILOSOPHERS_H

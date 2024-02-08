@@ -6,13 +6,13 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:50:53 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/08 13:37:39 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/08 16:42:40 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	is_int(char **av, int ac)
+int	is_int(char **av, int ac)
 {
 	int	i;
 	int	j;
@@ -27,12 +27,13 @@ void	is_int(char **av, int ac)
 			if (av[i][j] > 57 || av[i][j] < 48)
 			{
 				printf("wrong syntax");
-				exit (1);
+				return (0);
 			}
 			j++;
 		}
 		i++;
 	}
+	return (1);
 }
 
 void	clean(t_tab *tab)
