@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:26 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/07 15:06:32 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/08 14:08:01 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <unistd.h>
 # include <stdio.h>
-# include <sys/wait.h>
+# include <sys/time.h>
 # include <stdlib.h>
 # include <fcntl.h>
 # include <errno.h>
