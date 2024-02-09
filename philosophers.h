@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:26 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/08 16:49:32 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/09 11:18:42 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,14 @@ typedef struct s_philo
 
 typedef struct s_table
 {
-	t_philo		*ph;
-	t_fork		*fork;
-	int			n_f;
-	int			t_die;
-	int			t_eat;
-	int			t_sleep;
-	int			min_meal;
+	t_philo			*ph;
+	t_fork			*fork;
+	int				n_f;
+	int				t_die;
+	int				t_eat;
+	int				t_sleep;
+	int				min_meal;
+	struct timeval	start;
 }			t_tab;
 
 int		is_int(char **av, int ac);
