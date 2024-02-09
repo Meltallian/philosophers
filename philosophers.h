@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:26 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/09 11:18:42 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/09 16:23:02 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,16 @@ typedef struct s_fork
 
 typedef struct s_philo
 {
-	pthread_t	p;
-	int			id;
-	int			left_f;
-	int			right_f;
-	const char	*name;
-	char		state;
-	int			meals;
-	t_fork		*fork;
-	t_tab		*tab;
+	pthread_t		p;
+	int				id;
+	int				left_f;
+	int				right_f;
+	const char		*name;
+	char			state;
+	int				meals;
+	long			satiated;
+	t_fork			*fork;
+	t_tab			*tab;
 }			t_philo;
 
 typedef struct s_table
@@ -73,5 +74,6 @@ void	set_fork(t_tab *tab);
 void	name(t_tab *tab);
 void	*routine(void *arg);
 int		threads(t_tab *tab);
+long	get_time_in_ms();
 
 #endif // PHILOSOPHERS_H

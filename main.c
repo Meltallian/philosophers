@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:20 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/09 11:53:55 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/09 16:45:41 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	to_eat(t_philo *philo)
 				(time.tv_usec / 1000 - philo->tab->start.tv_usec / 1000), philo->name);
 			usleep(philo->tab->t_eat * 1000);
 			philo->meals++;
+			philo->satiated = get_time_in_ms();
 			philo->state = 's';
 		}
 		pthread_mutex_unlock(&(philo->fork[philo->right_f].mutex));
@@ -98,6 +99,7 @@ void	to_eat(t_philo *philo)
 				(time.tv_usec / 1000 - philo->tab->start.tv_usec / 1000), philo->name);
 			usleep(philo->tab->t_eat * 1000);
 			philo->meals++;
+			philo->satiated = get_time_in_ms();
 			philo->state = 's';
 		}
 		pthread_mutex_unlock(&(philo->fork[philo->right_f].mutex));
@@ -107,23 +109,24 @@ void	to_eat(t_philo *philo)
 
 int	action(t_philo *philo)
 {
-	struct timeval	start_time;
-	struct timeval	end_time;
-	//int				time_wo_food;
+	struct timeval	time;
+	long		time_ms;
+	long		since_last_meal_ms;
 
-	gettimeofday(&end_time, NULL);
-/* 	time_wo_food = (end_time.tv_usec / 1000) - (start_time.tv_usec / 1000);
-	if (time_wo_food > philo->tab->t_die)
-	{
-		printf("%ld %s died\n", end_time.tv_usec / 1000, philo->name);
-		exit (1);
-	} */
 	to_eat(philo);
 	if (philo->meals == philo->tab->min_meal)
 		return (10);
-	gettimeofday(&start_time, NULL);
 	to_sleep(philo);
 	to_think(philo);
+	time_ms = get_time_in_ms();
+	since_last_meal_ms = time_ms - philo->satiated;
+	if (since_last_meal_ms > philo->tab->t_die)
+	{
+		gettimeofday(&time, NULL);
+		printf("%ld %s died\n", (time.tv_sec * 1000 - philo->tab->start.tv_sec * 1000) +
+			(time.tv_usec / 1000 - philo->tab->start.tv_usec / 1000), philo->name);
+		return (10) ;
+	}
 	return (1);
 }
 
@@ -132,6 +135,7 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	philo->satiated = get_time_in_ms();
 	while (1)
 	{
 		if (action(philo) == 10)
