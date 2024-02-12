@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:55:27 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/09 11:18:49 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/12 10:32:35 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int	init_assist(t_tab *tab, int ac, char **av)
 
 int	init(t_tab *tab, int ac, char **av)
 {
-	gettimeofday(&tab->start, NULL);
 	if (!(init_assist(tab, ac, av)))
 		return (0);
 	return (1);

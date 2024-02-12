@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:20 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/09 16:45:41 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/12 10:31:33 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,10 @@
 
 void	to_sleep(t_philo *philo)
 {
-	struct timeval	time;
-
 	if (philo->state == 's')
 	{
-		gettimeofday(&time, NULL);
-		printf("%ld %s is sleeping\n", (time.tv_sec * 1000 - philo->tab->start.tv_sec * 1000) +
-			(time.tv_usec / 1000 - philo->tab->start.tv_usec / 1000), philo->name);
+		printf("%ld %s is sleeping\n", get_time_in_ms() -
+			philo->tab->st, philo->name);
 		usleep(philo->tab->t_sleep * 1000);
 		philo->state = 't';
 	}
@@ -28,47 +25,40 @@ void	to_sleep(t_philo *philo)
 
 void	to_think(t_philo *philo)
 {
-	struct timeval	time;
-
 	if (philo->state == 't')
 	{
-		gettimeofday(&time, NULL);
-		printf("%ld %s is thinking\n", (time.tv_sec * 1000 - philo->tab->start.tv_sec * 1000) +
-			(time.tv_usec / 1000 - philo->tab->start.tv_usec / 1000), philo->name);
+		printf("%ld %s is thinking\n", get_time_in_ms() -
+			philo->tab->st, philo->name);
 		philo->state = 'f';
 	}
 }
 
 void	to_eat(t_philo *philo)
 {
-	struct timeval	time;
 
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&(philo->fork[philo->left_f].mutex));
 		if (philo->state == 'f')
 		{
-			gettimeofday(&time, NULL);
-			printf("%ld %s has taken the fork %d\n", (time.tv_sec * 1000 - philo->tab->start.tv_sec * 1000) +
-				(time.tv_usec / 1000 - philo->tab->start.tv_usec / 1000), philo->name, philo->left_f);
+			printf("%ld %s has taken the fork %d\n", get_time_in_ms() -
+				philo->tab->st, philo->name, philo->left_f);
 			philo->state = 'r';
 		}
 		pthread_mutex_lock(&(philo->fork[philo->right_f].mutex));
 		if (philo->state == 'r')
 		{
-			gettimeofday(&time, NULL);
-			printf("%ld %s has taken the fork %d\n", (time.tv_sec * 1000 - philo->tab->start.tv_sec * 1000) +
-				(time.tv_usec / 1000 - philo->tab->start.tv_usec / 1000), philo->name, philo->right_f);
+			printf("%ld %s has taken the fork %d\n", get_time_in_ms() -
+				philo->tab->st, philo->name, philo->right_f);
 			philo->state = 'e';
 		}
 		if (philo->state == 'e')
 		{
-			gettimeofday(&time, NULL);
-			printf("%ld %s is eating\n", (time.tv_sec * 1000 - philo->tab->start.tv_sec * 1000) +
-				(time.tv_usec / 1000 - philo->tab->start.tv_usec / 1000), philo->name);
+			printf("%ld %s is eating\n", get_time_in_ms() -
+				philo->tab->st, philo->name);
+			philo->satiated = get_time_in_ms();
 			usleep(philo->tab->t_eat * 1000);
 			philo->meals++;
-			philo->satiated = get_time_in_ms();
 			philo->state = 's';
 		}
 		pthread_mutex_unlock(&(philo->fork[philo->right_f].mutex));
@@ -79,27 +69,24 @@ void	to_eat(t_philo *philo)
 		pthread_mutex_lock(&(philo->fork[philo->right_f].mutex));
 		if (philo->state == 'f')
 		{
-			gettimeofday(&time, NULL);
-			printf("%ld %s has taken the fork %d\n", (time.tv_sec * 1000 - philo->tab->start.tv_sec * 1000) +
-				(time.tv_usec / 1000 - philo->tab->start.tv_usec / 1000), philo->name, philo->right_f);
+			printf("%ld %s has taken the fork %d\n", get_time_in_ms() -
+				philo->tab->st, philo->name, philo->right_f);
 			philo->state = 'r';
 		}
 		pthread_mutex_lock(&(philo->fork[philo->left_f].mutex));
 		if (philo->state == 'r')
 		{
-			gettimeofday(&time, NULL);
-			printf("%ld %s has taken the fork %d\n", (time.tv_sec * 1000 - philo->tab->start.tv_sec * 1000) +
-				(time.tv_usec / 1000 - philo->tab->start.tv_usec / 1000), philo->name, philo->left_f);
+			printf("%ld %s has taken the fork %d\n", get_time_in_ms() -
+				philo->tab->st, philo->name, philo->left_f);
 			philo->state = 'e';
 		}
 		if (philo->state == 'e')
 		{
-			gettimeofday(&time, NULL);
-			printf("%ld %s is eating\n", (time.tv_sec * 1000 - philo->tab->start.tv_sec * 1000) +
-				(time.tv_usec / 1000 - philo->tab->start.tv_usec / 1000), philo->name);
+			printf("%ld %s is eating\n", get_time_in_ms() -
+				philo->tab->st, philo->name);
+			philo->satiated = get_time_in_ms();
 			usleep(philo->tab->t_eat * 1000);
 			philo->meals++;
-			philo->satiated = get_time_in_ms();
 			philo->state = 's';
 		}
 		pthread_mutex_unlock(&(philo->fork[philo->right_f].mutex));
@@ -109,7 +96,6 @@ void	to_eat(t_philo *philo)
 
 int	action(t_philo *philo)
 {
-	struct timeval	time;
 	long		time_ms;
 	long		since_last_meal_ms;
 
@@ -117,16 +103,15 @@ int	action(t_philo *philo)
 	if (philo->meals == philo->tab->min_meal)
 		return (10);
 	to_sleep(philo);
-	to_think(philo);
 	time_ms = get_time_in_ms();
 	since_last_meal_ms = time_ms - philo->satiated;
-	if (since_last_meal_ms > philo->tab->t_die)
+	if (since_last_meal_ms >= philo->tab->t_die)
 	{
-		gettimeofday(&time, NULL);
-		printf("%ld %s died\n", (time.tv_sec * 1000 - philo->tab->start.tv_sec * 1000) +
-			(time.tv_usec / 1000 - philo->tab->start.tv_usec / 1000), philo->name);
+		printf("%ld %s died\n", get_time_in_ms() -
+			philo->tab->st, philo->name);
 		return (10) ;
 	}
+	to_think(philo);
 	return (1);
 }
 
@@ -136,6 +121,7 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	philo->satiated = get_time_in_ms();
+	philo->tab->st = get_time_in_ms();
 	while (1)
 	{
 		if (action(philo) == 10)

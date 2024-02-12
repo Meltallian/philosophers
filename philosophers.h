@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:26 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/09 16:23:02 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/12 10:31:51 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct s_table
 	int				t_eat;
 	int				t_sleep;
 	int				min_meal;
-	struct timeval	start;
+	long			st;
 }			t_tab;
 
 int		is_int(char **av, int ac);
