@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:50:53 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/09 16:21:05 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/12 13:51:19 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,13 @@ void	clean(t_tab *tab)
 	free(tab->fork);
 }
 
-
 long get_time_in_ms()
 {
-	struct timeval current_time;
+	struct timeval	current_time;
+
 	gettimeofday(&current_time, NULL);
 	return (current_time.tv_sec * 1000L + current_time.tv_usec / 1000);
 }
-
 
 /* void	only_one_philo(char **av)
 {

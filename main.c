@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:20 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/12 10:31:33 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/12 15:54:39 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	to_think(t_philo *philo)
 
 void	to_eat(t_philo *philo)
 {
-
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&(philo->fork[philo->left_f].mutex));
@@ -121,12 +120,21 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	philo->satiated = get_time_in_ms();
-	philo->tab->st = get_time_in_ms();
 	while (1)
 	{
 		if (action(philo) == 10)
 			break ;
 	}
+	return (NULL);
+}
+
+void	*monitor(void *arg)
+{
+	t_tab	*tab;
+
+	tab = (t_tab *)arg;
+	if (tab->dead)
+		
 	return (NULL);
 }
 

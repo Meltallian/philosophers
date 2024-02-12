@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:26 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/12 10:31:51 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/12 15:54:26 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ typedef struct s_table
 	int				t_sleep;
 	int				min_meal;
 	long			st;
+	int				dead;
+	pthread_t		p;
 }			t_tab;
 
 int		is_int(char **av, int ac);
@@ -75,5 +77,6 @@ void	name(t_tab *tab);
 void	*routine(void *arg);
 int		threads(t_tab *tab);
 long	get_time_in_ms();
+void	*monitor(void *arg);
 
 #endif // PHILOSOPHERS_H

@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:55:27 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/12 10:32:35 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/12 15:42:04 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,15 @@ int	threads(t_tab *tab)
 	int	i;
 
 	i = 0;
+	tab->st = get_time_in_ms();
 	while (i < tab->n_f)
 	{
 		if (pthread_create(&(tab->ph[i].p), NULL, &routine, (void *)&(tab->ph[i])) != 0)
 			return (0);
 		i++;
 	}
+	if (pthread_create(&(tab->p), NULL, &monitor, (void *)&(tab)) != 0)
+		return (0);
 	i = 0;
 	while (i < tab->n_f)
 	{
@@ -83,5 +86,7 @@ int	threads(t_tab *tab)
 			return (0);
 		i++;
 	}
+	if (pthread_join(tab->p, NULL) != 0)
+		return (0);
 	return (1);
 }
