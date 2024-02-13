@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:26 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/12 15:54:26 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/13 11:03:26 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_table
 	int				min_meal;
 	long			st;
 	int				dead;
+	pthread_mutex_t	running;
 	pthread_t		p;
 }			t_tab;
 
@@ -74,9 +75,9 @@ void	set_philo_helper(t_tab *tab, int ac);
 void	set_philo(t_tab *tab, int ac);
 void	set_fork(t_tab *tab);
 void	name(t_tab *tab);
-void	*routine(void *arg);
+void	*philo_routine(void *arg);
 int		threads(t_tab *tab);
 long	get_time_in_ms();
-void	*monitor(void *arg);
+void	*monitor_routine(void *arg);
 
 #endif // PHILOSOPHERS_H

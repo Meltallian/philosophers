@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:50:53 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/12 13:51:19 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/13 11:05:24 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	clean(t_tab *tab)
 		pthread_mutex_destroy(&(tab->fork[i].mutex));
 		i++;
 	}
+	pthread_mutex_destroy(&(tab->running));
 	free(tab->ph);
 	free(tab->fork);
 }

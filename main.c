@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:20 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/12 15:54:39 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/13 12:05:25 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,26 +95,18 @@ void	to_eat(t_philo *philo)
 
 int	action(t_philo *philo)
 {
-	long		time_ms;
-	long		since_last_meal_ms;
-
 	to_eat(philo);
 	if (philo->meals == philo->tab->min_meal)
-		return (10);
-	to_sleep(philo);
-	time_ms = get_time_in_ms();
-	since_last_meal_ms = time_ms - philo->satiated;
-	if (since_last_meal_ms >= philo->tab->t_die)
 	{
-		printf("%ld %s died\n", get_time_in_ms() -
-			philo->tab->st, philo->name);
-		return (10) ;
+		philo->state = 'o';
+		return (0);
 	}
+	to_sleep(philo);
 	to_think(philo);
 	return (1);
 }
 
-void	*routine(void *arg)
+void	*philo_routine(void *arg)
 {
 	t_philo	*philo;
 
@@ -122,19 +114,59 @@ void	*routine(void *arg)
 	philo->satiated = get_time_in_ms();
 	while (1)
 	{
-		if (action(philo) == 10)
+		pthread_mutex_lock(&philo->tab->running);
+		if (philo->tab->dead == 1)
+		{
+			pthread_mutex_unlock(&philo->tab->running);
+			break ;
+		}
+		pthread_mutex_unlock(&philo->tab->running);
+		action(philo);
+		if (philo->state == 'o')
 			break ;
 	}
 	return (NULL);
 }
 
-void	*monitor(void *arg)
+int	monitor(t_tab *tab)
+{
+	long	time_ms;
+	long	since_last_meal_ms;
+	int		i;
+
+	i = 0;
+	while (1)
+	{
+		time_ms = get_time_in_ms();
+		since_last_meal_ms = time_ms - tab->ph[i].satiated;
+		if (since_last_meal_ms >= tab->t_die)
+		{
+			pthread_mutex_lock(&tab->running);
+			printf("%ld %s died\n", get_time_in_ms() -
+				tab->st, tab->ph[i].name);
+			tab->dead = 1;
+			pthread_mutex_unlock(&tab->running);
+			break ;
+		}
+		usleep(100);
+		i = (i + 1) % tab->n_f;
+	}
+	return (0);
+}
+
+void	*monitor_routine(void *arg)
 {
 	t_tab	*tab;
 
 	tab = (t_tab *)arg;
-	if (tab->dead)
-		
+	while (1)
+	{
+		monitor(tab);
+		if (tab->dead == 1)
+		{
+			break ;
+		}
+	}
 	return (NULL);
 }
 

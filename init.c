@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:55:27 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/12 15:42:04 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/13 11:04:54 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int	init(t_tab *tab, int ac, char **av)
 {
 	if (!(init_assist(tab, ac, av)))
 		return (0);
+	tab->dead = 0;
+	pthread_mutex_init(&tab->running, NULL);
 	return (1);
 }
 
@@ -73,11 +75,11 @@ int	threads(t_tab *tab)
 	tab->st = get_time_in_ms();
 	while (i < tab->n_f)
 	{
-		if (pthread_create(&(tab->ph[i].p), NULL, &routine, (void *)&(tab->ph[i])) != 0)
+		if (pthread_create(&(tab->ph[i].p), NULL, &philo_routine, (void *)&(tab->ph[i])) != 0)
 			return (0);
 		i++;
 	}
-	if (pthread_create(&(tab->p), NULL, &monitor, (void *)&(tab)) != 0)
+	if (pthread_create(&(tab->p), NULL, &monitor_routine, (void *)&(tab)) != 0)
 		return (0);
 	i = 0;
 	while (i < tab->n_f)
