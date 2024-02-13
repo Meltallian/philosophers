@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:20 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/13 12:05:25 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/13 15:01:01 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ void	to_think(t_philo *philo)
 	}
 }
 
-void	to_eat(t_philo *philo)
+int	to_eat(t_philo *philo)
 {
+	if (philo->tab->dead == 1)
+		return (0);
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&(philo->fork[philo->left_f].mutex));
@@ -55,13 +57,17 @@ void	to_eat(t_philo *philo)
 		{
 			printf("%ld %s is eating\n", get_time_in_ms() -
 				philo->tab->st, philo->name);
+			pthread_mutex_lock(&(philo->satiate));
 			philo->satiated = get_time_in_ms();
+			pthread_mutex_unlock(&(philo->satiate));
 			usleep(philo->tab->t_eat * 1000);
 			philo->meals++;
 			philo->state = 's';
 		}
 		pthread_mutex_unlock(&(philo->fork[philo->right_f].mutex));
 		pthread_mutex_unlock(&(philo->fork[philo->left_f].mutex));
+		if (philo->tab->dead == 1)
+			return (0);
 	}
 	else
 	{
@@ -83,25 +89,39 @@ void	to_eat(t_philo *philo)
 		{
 			printf("%ld %s is eating\n", get_time_in_ms() -
 				philo->tab->st, philo->name);
+			pthread_mutex_lock(&(philo->satiate));
 			philo->satiated = get_time_in_ms();
+			pthread_mutex_unlock(&(philo->satiate));
 			usleep(philo->tab->t_eat * 1000);
 			philo->meals++;
 			philo->state = 's';
 		}
 		pthread_mutex_unlock(&(philo->fork[philo->right_f].mutex));
 		pthread_mutex_unlock(&(philo->fork[philo->left_f].mutex));
+		if (philo->tab->dead == 1)
+			return (0);
 	}
+	return (1);
 }
 
 int	action(t_philo *philo)
 {
 	to_eat(philo);
+	if (philo->tab->dead == 1)
+		return (0);
 	if (philo->meals == philo->tab->min_meal)
 	{
 		philo->state = 'o';
+		pthread_mutex_lock(&(philo->satiate));
+		philo->tab->full++;
+		pthread_mutex_unlock(&(philo->satiate));
 		return (0);
 	}
+	if (philo->tab->dead == 1)
+		return (0);
 	to_sleep(philo);
+	if (philo->tab->dead == 1)
+		return (0);
 	to_think(philo);
 	return (1);
 }
@@ -121,9 +141,9 @@ void	*philo_routine(void *arg)
 			break ;
 		}
 		pthread_mutex_unlock(&philo->tab->running);
-		action(philo);
 		if (philo->state == 'o')
 			break ;
+		action(philo);
 	}
 	return (NULL);
 }
@@ -138,18 +158,21 @@ int	monitor(t_tab *tab)
 	while (1)
 	{
 		time_ms = get_time_in_ms();
+		pthread_mutex_lock(&tab->running);
 		since_last_meal_ms = time_ms - tab->ph[i].satiated;
 		if (since_last_meal_ms >= tab->t_die)
 		{
-			pthread_mutex_lock(&tab->running);
 			printf("%ld %s died\n", get_time_in_ms() -
 				tab->st, tab->ph[i].name);
 			tab->dead = 1;
 			pthread_mutex_unlock(&tab->running);
 			break ;
 		}
-		usleep(100);
+		if (tab->full == tab->n_f)
+			break ;
+		pthread_mutex_unlock(&tab->running);
 		i = (i + 1) % tab->n_f;
+		usleep(100);
 	}
 	return (0);
 }
@@ -162,10 +185,8 @@ void	*monitor_routine(void *arg)
 	while (1)
 	{
 		monitor(tab);
-		if (tab->dead == 1)
-		{
+		if (tab->dead == 1 || tab->full == tab->n_f)
 			break ;
-		}
 	}
 	return (NULL);
 }

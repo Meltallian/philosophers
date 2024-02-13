@@ -9,6 +9,7 @@
 		"locale": "c",
 		"ostream": "c",
 		"system_error": "c",
-		"typeinfo": "c"
+		"typeinfo": "c",
+		"ios": "c"
 	}
 }

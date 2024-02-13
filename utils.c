@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:50:53 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/13 11:05:24 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/13 15:04:02 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	clean(t_tab *tab)
 	while (i < tab->n_f)
 	{
 		pthread_mutex_destroy(&(tab->fork[i].mutex));
+		pthread_mutex_destroy(&(tab->ph[i].satiate));
 		i++;
 	}
 	pthread_mutex_destroy(&(tab->running));
@@ -59,10 +60,13 @@ long get_time_in_ms()
 	return (current_time.tv_sec * 1000L + current_time.tv_usec / 1000);
 }
 
-/* void	only_one_philo(char **av)
+// Improved version of sleep function
+int	ft_usleep(size_t milliseconds)
 {
-	if (av[1])
-	{
-		printf("There's only one fork, hence ")
-	}
-} */
+	size_t	start;
+
+	start = get_current_time();
+	while ((get_current_time() - start) < milliseconds)
+		usleep(500);
+	return (0);
+}

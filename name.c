@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:17:12 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/07 14:08:28 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/13 14:03:25 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	name_1(t_tab *tab)
 {
-	tab->ph[0].name = "Socrates";
-	tab->ph[1].name = "Plato";
-	tab->ph[2].name = "David Vandenbrouck";
-	tab->ph[3].name = "Confucius";
+	tab->ph[0].name = strdup("Socrates");
+	tab->ph[1].name = strdup("Plato");
+	tab->ph[2].name = strdup("David Vandenbrouck");
+	tab->ph[3].name = strdup("Confucius");
 	tab->ph[4].name = "Ma Boi Luca";
 	tab->ph[5].name = "Descartes";
 	tab->ph[6].name = "Spinoza";
