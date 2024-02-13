@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:20 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/13 15:13:07 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/13 16:39:12 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,15 @@ int	to_eat(t_philo *philo)
 				philo->tab->st, philo->name, philo->left_f);
 			philo->state = 'r';
 		}
-		pthread_mutex_lock(&(philo->fork[philo->right_f].mutex));
-		if (philo->state == 'r')
+		if (philo->tab->n_f > 1)
 		{
-			printf("%ld %s has taken the fork %d\n", get_time_in_ms() -
-				philo->tab->st, philo->name, philo->right_f);
-			philo->state = 'e';
+			pthread_mutex_lock(&(philo->fork[philo->right_f].mutex));
+			if (philo->state == 'r')
+			{
+				printf("%ld %s has taken the fork %d\n", get_time_in_ms() -
+					philo->tab->st, philo->name, philo->right_f);
+				philo->state = 'e';
+			}
 		}
 		if (philo->state == 'e')
 		{
@@ -64,7 +67,8 @@ int	to_eat(t_philo *philo)
 			philo->meals++;
 			philo->state = 's';
 		}
-		pthread_mutex_unlock(&(philo->fork[philo->right_f].mutex));
+		if (philo->tab->n_f > 1)
+			pthread_mutex_unlock(&(philo->fork[philo->right_f].mutex));
 		pthread_mutex_unlock(&(philo->fork[philo->left_f].mutex));
 		if (philo->tab->dead == 1)
 			return (0);
@@ -106,6 +110,8 @@ int	to_eat(t_philo *philo)
 
 int	action(t_philo *philo)
 {
+	if (philo->tab->dead == 1)
+		return (0);
 	to_eat(philo);
 	if (philo->tab->dead == 1)
 		return (0);
@@ -145,17 +151,13 @@ void	*philo_routine(void *arg)
 
 int	monitor(t_tab *tab)
 {
-	long	time_ms;
-	long	since_last_meal_ms;
 	int		i;
 
 	i = 0;
 	while (1)
 	{
-		time_ms = get_time_in_ms();
 		pthread_mutex_lock(&tab->running);
-		since_last_meal_ms = time_ms - tab->ph[i].satiated;
-		if (since_last_meal_ms >= tab->t_die)
+		if (get_time_in_ms() - tab->ph[i].satiated >= tab->t_die)
 		{
 			printf("%ld %s died\n", get_time_in_ms() -
 				tab->st, tab->ph[i].name);
@@ -164,7 +166,10 @@ int	monitor(t_tab *tab)
 			break ;
 		}
 		if (tab->full == tab->n_f)
+		{
+			pthread_mutex_unlock(&tab->running);
 			break ;
+		}
 		pthread_mutex_unlock(&tab->running);
 		i = (i + 1) % tab->n_f;
 		usleep(100);
