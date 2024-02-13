@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:20 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/13 15:01:01 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/13 15:13:07 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,13 +134,8 @@ void	*philo_routine(void *arg)
 	philo->satiated = get_time_in_ms();
 	while (1)
 	{
-		pthread_mutex_lock(&philo->tab->running);
 		if (philo->tab->dead == 1)
-		{
-			pthread_mutex_unlock(&philo->tab->running);
 			break ;
-		}
-		pthread_mutex_unlock(&philo->tab->running);
 		if (philo->state == 'o')
 			break ;
 		action(philo);
