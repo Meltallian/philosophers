@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:50:53 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/13 15:09:23 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/14 17:16:14 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ long get_time_in_ms()
 	return (current_time.tv_sec * 1000L + current_time.tv_usec / 1000);
 }
 
-// Improved version of sleep function
 int	ft_usleep(size_t milliseconds)
 {
 	size_t	start;

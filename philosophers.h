@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:26 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/13 15:04:10 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/14 17:00:01 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,12 @@ int		threads(t_tab *tab);
 long	get_time_in_ms();
 void	*monitor_routine(void *arg);
 int		ft_usleep(size_t milliseconds);
+void	eating_assist(t_philo *philo);
+void	to_sleep(t_philo *philo);
+void	to_think(t_philo *philo);
+int		to_eat(t_philo *philo);
+int		action(t_philo *philo);
+int		even_eat(t_philo *philo);
+int		odd_eat(t_philo *philo);
 
 #endif // PHILOSOPHERS_H

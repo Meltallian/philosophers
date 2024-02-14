@@ -6,166 +6,11 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:20 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/14 16:26:41 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/14 16:59:23 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
-void	to_sleep(t_philo *philo)
-{
-	if (philo->state == 's')
-	{
-		printf("%ld %s is sleeping\n", get_time_in_ms() -
-			philo->tab->st, philo->name);
-		usleep(philo->tab->t_sleep * 1000);
-		philo->state = 't';
-	}
-}
-
-void	to_think(t_philo *philo)
-{
-	if (philo->state == 't')
-	{
-		printf("%ld %s is thinking\n", get_time_in_ms() -
-			philo->tab->st, philo->name);
-		philo->state = 'f';
-	}
-}
-
-int	to_eat(t_philo *philo)
-{
-	usleep(1000);
-	if (philo->tab->dead == 1)
-		return (0);
-	if (philo->id % 2 == 0)
-	{
-		pthread_mutex_lock(&(philo->fork[philo->left_f].mutex));
-		if (philo->state == 'f')
-		{
-			if (philo->tab->dead == 1)
-			{
-				pthread_mutex_unlock(&(philo->fork[philo->left_f].mutex));
-				return (0);
-			}
-			printf("%ld %s has taken the fork %d\n", get_time_in_ms() -
-				philo->tab->st, philo->name, philo->left_f);
-			philo->state = 'r';
-		}
-		if (philo->tab->n_f > 1)
-		{
-			pthread_mutex_lock(&(philo->fork[philo->right_f].mutex));
-			if (philo->state == 'r')
-			{
-				if (philo->tab->dead == 1)
-				{
-					pthread_mutex_unlock(&(philo->fork[philo->left_f].mutex));
-					pthread_mutex_unlock(&(philo->fork[philo->right_f].mutex));
-					return (0);
-				}
-				printf("%ld %s has taken the fork %d\n", get_time_in_ms() -
-					philo->tab->st, philo->name, philo->right_f);
-				philo->state = 'e';
-			}
-		}
-		if (philo->tab->dead == 1)
-		{
-			pthread_mutex_unlock(&(philo->fork[philo->left_f].mutex));
-			pthread_mutex_unlock(&(philo->fork[philo->right_f].mutex));
-			return (0);
-		}
-		if (philo->state == 'e')
-		{
-			printf("%ld %s is eating\n", get_time_in_ms() -
-				philo->tab->st, philo->name);
-			pthread_mutex_lock(&(philo->satiate));
-			philo->satiated = get_time_in_ms();
-			pthread_mutex_unlock(&(philo->satiate));
-			usleep(philo->tab->t_eat * 1000);
-			philo->meals++;
-			philo->state = 's';
-		}
-		if (philo->tab->n_f > 1)
-			pthread_mutex_unlock(&(philo->fork[philo->right_f].mutex));
-		pthread_mutex_unlock(&(philo->fork[philo->left_f].mutex));
-		if (philo->tab->dead == 1)
-			return (0);
-	}
-	else
-	{
-		pthread_mutex_lock(&(philo->fork[philo->right_f].mutex));
-		if (philo->state == 'f')
-		{
-			if (philo->tab->dead == 1)
-			{
-				pthread_mutex_unlock(&(philo->fork[philo->right_f].mutex));
-				return (0);
-			}
-			printf("%ld %s has taken the fork %d\n", get_time_in_ms() -
-				philo->tab->st, philo->name, philo->right_f);
-			philo->state = 'r';
-		}
-		pthread_mutex_lock(&(philo->fork[philo->left_f].mutex));
-		if (philo->state == 'r')
-		{
-			if (philo->tab->dead == 1)
-			{
-				pthread_mutex_unlock(&(philo->fork[philo->left_f].mutex));
-				pthread_mutex_unlock(&(philo->fork[philo->right_f].mutex));
-				return (0);
-			}
-			printf("%ld %s has taken the fork %d\n", get_time_in_ms() -
-				philo->tab->st, philo->name, philo->left_f);
-			philo->state = 'e';
-		}
-		if (philo->tab->dead == 1)
-		{
-			pthread_mutex_unlock(&(philo->fork[philo->left_f].mutex));
-			pthread_mutex_unlock(&(philo->fork[philo->right_f].mutex));
-			return (0);
-		}
-		if (philo->state == 'e')
-		{
-			printf("%ld %s is eating\n", get_time_in_ms() -
-				philo->tab->st, philo->name);
-			pthread_mutex_lock(&(philo->satiate));
-			philo->satiated = get_time_in_ms();
-			pthread_mutex_unlock(&(philo->satiate));
-			usleep(philo->tab->t_eat * 1000);
-			philo->meals++;
-			philo->state = 's';
-		}
-		pthread_mutex_unlock(&(philo->fork[philo->right_f].mutex));
-		pthread_mutex_unlock(&(philo->fork[philo->left_f].mutex));
-		if (philo->tab->dead == 1)
-			return (0);
-	}
-	return (1);
-}
-
-int	action(t_philo *philo)
-{
-	if (philo->tab->dead == 1)
-		return (0);
-	to_eat(philo);
-	if (philo->tab->dead == 1)
-		return (0);
-	if (philo->meals == philo->tab->min_meal)
-	{
-		philo->state = 'o';
-		pthread_mutex_lock(&(philo->satiate));
-		philo->tab->full++;
-		pthread_mutex_unlock(&(philo->satiate));
-		return (0);
-	}
-	if (philo->tab->dead == 1)
-		return (0);
-	to_sleep(philo);
-	if (philo->tab->dead == 1)
-		return (0);
-	to_think(philo);
-	return (1);
-}
 
 void	*philo_routine(void *arg)
 {
@@ -175,7 +20,7 @@ void	*philo_routine(void *arg)
 	philo->satiated = get_time_in_ms();
 	while (1)
 	{
-		if (philo->tab->dead == 1 ||  get_time_in_ms() - philo->satiated >= philo->tab->t_die)
+		if (philo->tab->dead == 1)
 			break ;
 		if (philo->state == 'o')
 			break ;

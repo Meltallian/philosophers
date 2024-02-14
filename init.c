@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:55:27 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/13 14:50:04 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/14 16:33:18 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ int	threads(t_tab *tab)
 	int	i;
 
 	tab->st = get_time_in_ms();
-
 	i = 0;
 	while (i < tab->n_f)
 	{
