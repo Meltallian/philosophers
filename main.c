@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:20 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/13 16:39:12 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/14 16:26:41 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	to_think(t_philo *philo)
 
 int	to_eat(t_philo *philo)
 {
+	usleep(1000);
 	if (philo->tab->dead == 1)
 		return (0);
 	if (philo->id % 2 == 0)
@@ -42,6 +43,11 @@ int	to_eat(t_philo *philo)
 		pthread_mutex_lock(&(philo->fork[philo->left_f].mutex));
 		if (philo->state == 'f')
 		{
+			if (philo->tab->dead == 1)
+			{
+				pthread_mutex_unlock(&(philo->fork[philo->left_f].mutex));
+				return (0);
+			}
 			printf("%ld %s has taken the fork %d\n", get_time_in_ms() -
 				philo->tab->st, philo->name, philo->left_f);
 			philo->state = 'r';
@@ -51,10 +57,22 @@ int	to_eat(t_philo *philo)
 			pthread_mutex_lock(&(philo->fork[philo->right_f].mutex));
 			if (philo->state == 'r')
 			{
+				if (philo->tab->dead == 1)
+				{
+					pthread_mutex_unlock(&(philo->fork[philo->left_f].mutex));
+					pthread_mutex_unlock(&(philo->fork[philo->right_f].mutex));
+					return (0);
+				}
 				printf("%ld %s has taken the fork %d\n", get_time_in_ms() -
 					philo->tab->st, philo->name, philo->right_f);
 				philo->state = 'e';
 			}
+		}
+		if (philo->tab->dead == 1)
+		{
+			pthread_mutex_unlock(&(philo->fork[philo->left_f].mutex));
+			pthread_mutex_unlock(&(philo->fork[philo->right_f].mutex));
+			return (0);
 		}
 		if (philo->state == 'e')
 		{
@@ -78,6 +96,11 @@ int	to_eat(t_philo *philo)
 		pthread_mutex_lock(&(philo->fork[philo->right_f].mutex));
 		if (philo->state == 'f')
 		{
+			if (philo->tab->dead == 1)
+			{
+				pthread_mutex_unlock(&(philo->fork[philo->right_f].mutex));
+				return (0);
+			}
 			printf("%ld %s has taken the fork %d\n", get_time_in_ms() -
 				philo->tab->st, philo->name, philo->right_f);
 			philo->state = 'r';
@@ -85,9 +108,21 @@ int	to_eat(t_philo *philo)
 		pthread_mutex_lock(&(philo->fork[philo->left_f].mutex));
 		if (philo->state == 'r')
 		{
+			if (philo->tab->dead == 1)
+			{
+				pthread_mutex_unlock(&(philo->fork[philo->left_f].mutex));
+				pthread_mutex_unlock(&(philo->fork[philo->right_f].mutex));
+				return (0);
+			}
 			printf("%ld %s has taken the fork %d\n", get_time_in_ms() -
 				philo->tab->st, philo->name, philo->left_f);
 			philo->state = 'e';
+		}
+		if (philo->tab->dead == 1)
+		{
+			pthread_mutex_unlock(&(philo->fork[philo->left_f].mutex));
+			pthread_mutex_unlock(&(philo->fork[philo->right_f].mutex));
+			return (0);
 		}
 		if (philo->state == 'e')
 		{
@@ -140,7 +175,7 @@ void	*philo_routine(void *arg)
 	philo->satiated = get_time_in_ms();
 	while (1)
 	{
-		if (philo->tab->dead == 1)
+		if (philo->tab->dead == 1 ||  get_time_in_ms() - philo->satiated >= philo->tab->t_die)
 			break ;
 		if (philo->state == 'o')
 			break ;
