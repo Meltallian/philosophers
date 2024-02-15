@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   obsolete_odd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/15 13:26:18 by jbidaux           #+#    #+#             */
+/*   Updated: 2024/02/15 13:46:36 by jbidaux          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philosophers.h"
 
 void	odd_assist_2(t_philo *philo)
 {
-	printf("%ld %s has taken the fork %d\n", get_time_in_ms() -
-		philo->tab->st, philo->name, philo->left_f);
+	printf("%ld %s has taken the fork %d\n", get_time_in_ms()
+		- philo->tab->st, philo->name, philo->left_f);
 	philo->state = 'e';
 }
 
@@ -41,8 +53,8 @@ int	odd_eat(t_philo *philo)
 			pthread_mutex_unlock(&(philo->fork[philo->right_f].mutex));
 			return (0);
 		}
-		printf("%ld %s has taken the fork %d\n", get_time_in_ms() -
-			philo->tab->st, philo->name, philo->right_f);
+		printf("%ld %s has taken the fork %d\n", get_time_in_ms()
+			- philo->tab->st, philo->name, philo->right_f);
 		philo->state = 'r';
 	}
 	pthread_mutex_lock(&(philo->fork[philo->left_f].mutex));

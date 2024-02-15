@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:20 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/14 16:59:23 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/15 13:46:56 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ int	monitor(t_tab *tab)
 	while (1)
 	{
 		pthread_mutex_lock(&tab->running);
-		if (get_time_in_ms() - tab->ph[i].satiated >= tab->t_die)
+		if (get_time_in_ms() - tab->ph[i].satiated > tab->t_die)
 		{
-			printf("%ld %s died\n", get_time_in_ms() -
-				tab->st, tab->ph[i].name);
+			printf("%ld %s died\n", get_time_in_ms()
+				- tab->st, tab->ph[i].name);
 			tab->dead = 1;
 			pthread_mutex_unlock(&tab->running);
 			break ;

@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:50:53 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/14 17:16:14 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/15 13:46:15 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	clean(t_tab *tab)
 	free(tab->fork);
 }
 
-long get_time_in_ms()
+long	get_time_in_ms(void)
 {
 	struct timeval	current_time;
 

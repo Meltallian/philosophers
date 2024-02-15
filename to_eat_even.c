@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   to_eat_even.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/15 13:26:23 by jbidaux           #+#    #+#             */
+/*   Updated: 2024/02/15 13:45:45 by jbidaux          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philosophers.h"
 
 void	even_utils_2(t_philo *philo)
 {
-	printf("%ld %s has taken a fork\n", get_time_in_ms() -
-		philo->tab->st, philo->name);
+	printf("%ld %s has taken a fork\n", get_time_in_ms()
+		- philo->tab->st, philo->name);
 	philo->state = 'e';
 }
 
@@ -51,8 +63,8 @@ int	even_eat(t_philo *philo)
 			pthread_mutex_unlock(&(philo->fork[philo->left_f].mutex));
 			return (0);
 		}
-		printf("%ld %s has taken a fork\n", get_time_in_ms() -
-			philo->tab->st, philo->name);
+		printf("%ld %s has taken a fork\n", get_time_in_ms()
+			- philo->tab->st, philo->name);
 		philo->state = 'r';
 	}
 	return (even_utils(philo));

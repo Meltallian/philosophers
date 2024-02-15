@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:26 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/14 17:00:01 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/15 13:46:04 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	set_fork(t_tab *tab);
 void	name(t_tab *tab);
 void	*philo_routine(void *arg);
 int		threads(t_tab *tab);
-long	get_time_in_ms();
+long	get_time_in_ms(void);
 void	*monitor_routine(void *arg);
 int		ft_usleep(size_t milliseconds);
 void	eating_assist(t_philo *philo);
