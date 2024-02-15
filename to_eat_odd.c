@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:26:25 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/15 13:45:32 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/15 14:54:39 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ int	odd_assist(t_philo *philo)
 		pthread_mutex_unlock(&(philo->fork[philo->right_f].mutex));
 		return (0);
 	}
-	eating_assist(philo);
+	if (eating_assist(philo) == 0)
+		return (0);
 	pthread_mutex_unlock(&(philo->fork[philo->right_f].mutex));
 	pthread_mutex_unlock(&(philo->fork[philo->left_f].mutex));
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:50:53 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/15 13:46:15 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/15 14:09:30 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	is_int(char **av, int ac)
 			if (av[i][j] > 57 || av[i][j] < 48)
 			{
 				printf("wrong syntax");
-				return (0);
+				return (-1);
 			}
 			j++;
 		}

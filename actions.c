@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:26:10 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/15 13:48:57 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/15 15:23:36 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	to_sleep(t_philo *philo)
 	{
 		printf("%ld %s is sleeping\n", get_time_in_ms()
 			- philo->tab->st, philo->name);
-		usleep(philo->tab->t_sleep * 1000);
+		ft_usleep(philo->tab->t_sleep);
 		philo->state = 't';
 	}
 }
@@ -33,30 +33,37 @@ void	to_think(t_philo *philo)
 	}
 }
 
-void	eating_assist(t_philo *philo)
+int	eating_assist(t_philo *philo)
 {
 	if (philo->state == 'e')
 	{
 		printf("%ld %s is eating\n", get_time_in_ms()
 			- philo->tab->st, philo->name);
+		if (philo->tab->dead == 1)
+			return (0);
 		pthread_mutex_lock(&(philo->satiate));
 		philo->satiated = get_time_in_ms();
 		pthread_mutex_unlock(&(philo->satiate));
-		usleep(philo->tab->t_eat * 1000);
+		philo->just_eaten = 1;
 		philo->meals++;
+		ft_usleep(philo->tab->t_eat);
 		philo->state = 's';
 	}
+	return (1);
 }
 
 int	to_eat(t_philo *philo)
 {
-	if (philo->id % 2 == 0)
+	if (philo->just_eaten == 0)
 	{
-		return (even_eat(philo));
-	}
-	else
-	{
-		return (odd_eat(philo));
+		if (philo->id % 2 == 0)
+		{
+			return (even_eat(philo));
+		}
+		else
+		{
+			return (odd_eat(philo));
+		}
 	}
 	return (1);
 }

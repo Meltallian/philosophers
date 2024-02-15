@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:20 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/15 13:46:56 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/15 15:23:15 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ void	*philo_routine(void *arg)
 	return (NULL);
 }
 
+void	order(t_tab *tab, int i)
+{
+	if (get_time_in_ms() - tab->ph[i].satiated > tab->t_die - 10)
+		tab->ph[i].just_eaten = 0;
+}
+
 int	monitor(t_tab *tab)
 {
 	int		i;
@@ -37,22 +43,23 @@ int	monitor(t_tab *tab)
 	while (1)
 	{
 		pthread_mutex_lock(&tab->running);
+		order(tab, i);
+		if (tab->full == tab->n_f)
+		{
+			pthread_mutex_unlock(&tab->running);
+			return (0);
+		}
 		if (get_time_in_ms() - tab->ph[i].satiated > tab->t_die)
 		{
 			printf("%ld %s died\n", get_time_in_ms()
 				- tab->st, tab->ph[i].name);
 			tab->dead = 1;
 			pthread_mutex_unlock(&tab->running);
-			break ;
-		}
-		if (tab->full == tab->n_f)
-		{
-			pthread_mutex_unlock(&tab->running);
-			break ;
+			return (0);
 		}
 		pthread_mutex_unlock(&tab->running);
 		i = (i + 1) % tab->n_f;
-		usleep(100);
+		usleep(50);
 	}
 	return (0);
 }
@@ -76,13 +83,15 @@ int	main(int ac, char **av)
 	t_tab	tab;
 
 	if (ac == 1)
-		return (1);
+		return (-1);
 	if (ac < 5 || ac > 6)
 	{
 		printf("wrong syntax");
-		return (1);
+		return (-1);
 	}
-	if (!(init(&tab, ac, av)))
+	if (is_int(av, ac) == -1)
+		return (-1);
+	if (init(&tab, ac, av) == -1)
 	{
 		clean(&tab);
 		return (1);

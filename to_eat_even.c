@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:26:23 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/15 13:45:45 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/15 14:49:22 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int	even_utils(t_philo *philo)
 			even_utils_2(philo);
 		}
 	}
-	eating_assist(philo);
+	if (eating_assist(philo) == 0)
+		return (0);
 	if (philo->tab->dead == 1)
 	{
 		pthread_mutex_unlock(&(philo->fork[philo->left_f].mutex));

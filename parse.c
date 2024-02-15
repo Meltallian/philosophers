@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 15:43:42 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/07 15:23:03 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/15 13:52:19 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	set_philo_helper(t_tab *tab, int ac)
 		tab->ph[i].left_f = i;
 		tab->ph[i].tab = tab;
 		tab->ph[i].state = 'f';
+		tab->ph[i].just_eaten = 0;
 		i++;
 	}
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 11:55:27 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/15 13:48:10 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/15 14:13:50 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	init_assist_2(t_tab *tab, int ac, char **av)
 {
-	is_int(av, ac);
 	tab->n_f = atoi(av[1]);
 	tab->t_die = atoi(av[2]);
 	tab->t_eat = atoi(av[3]);
@@ -27,7 +26,7 @@ int	init_assist_2(t_tab *tab, int ac, char **av)
 	if (!tab->ph)
 	{
 		printf("philosophers malloc issue\n");
-		return (0);
+		return (-1);
 	}
 	return (1);
 }
@@ -36,14 +35,15 @@ int	init_assist(t_tab *tab, int ac, char **av)
 {
 	int	i;
 
-	init_assist_2(tab, ac, av);
+	if (init_assist_2(tab, ac, av) == -1)
+		return (-1);
 	set_philo(tab, ac);
 	name(tab);
 	tab->fork = malloc (tab->n_f * sizeof(t_fork));
 	if (!tab->fork)
 	{
 		printf("fork malloc issue\n");
-		return (0);
+		return (-1);
 	}
 	set_fork(tab);
 	i = 0;
@@ -52,7 +52,7 @@ int	init_assist(t_tab *tab, int ac, char **av)
 		if (pthread_mutex_init(&(tab->fork[i].mutex), NULL) != 0)
 		{
 			printf("thread issue\n");
-			return (0);
+			return (-1);
 		}
 		i++;
 	}
@@ -63,8 +63,8 @@ int	init(t_tab *tab, int ac, char **av)
 {
 	int	i;
 
-	if (!(init_assist(tab, ac, av)))
-		return (0);
+	if (init_assist(tab, ac, av) == -1)
+		return (-1);
 	tab->dead = 0;
 	if (pthread_mutex_init(&tab->running, NULL) != 0)
 	{

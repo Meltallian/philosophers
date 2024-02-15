@@ -6,7 +6,7 @@
 /*   By: jbidaux <jeremie.bidaux@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:29:26 by jbidaux           #+#    #+#             */
-/*   Updated: 2024/02/15 13:46:04 by jbidaux          ###   ########.fr       */
+/*   Updated: 2024/02/15 15:00:19 by jbidaux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@
 # include <pthread.h>
 # include <string.h>
 
-# define PP printf("prout")
-# define DD(xxx) printf("%d\n", xxx)
-# define SS(xxx) printf("%s\n", xxx)
-# define CC(xxx) printf("%c\n", xxx)
+// # define PP printf("prout")
+// # define DD(xxx) printf("%d\n", xxx)
+// # define SS(xxx) printf("%s\n", xxx)
+// # define CC(xxx) printf("%c\n", xxx)
 
 typedef struct s_table	t_tab;
 
@@ -48,6 +48,7 @@ typedef struct s_philo
 	int				meals;
 	long			satiated;
 	pthread_mutex_t	satiate;
+	int				just_eaten;
 	t_fork			*fork;
 	t_tab			*tab;
 }			t_philo;
@@ -82,12 +83,13 @@ int		threads(t_tab *tab);
 long	get_time_in_ms(void);
 void	*monitor_routine(void *arg);
 int		ft_usleep(size_t milliseconds);
-void	eating_assist(t_philo *philo);
+int		eating_assist(t_philo *philo);
 void	to_sleep(t_philo *philo);
 void	to_think(t_philo *philo);
 int		to_eat(t_philo *philo);
 int		action(t_philo *philo);
 int		even_eat(t_philo *philo);
 int		odd_eat(t_philo *philo);
+void	order(t_tab *tab, int i);
 
 #endif // PHILOSOPHERS_H
